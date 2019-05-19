@@ -7,16 +7,16 @@ def resize_to_1080(video):
 	height=video.height
 	width=video.width
 	if width/height >= 1920.0/1080.0:
-		newheight=int(1920*height/width)
-		borderup=int((1080-newheight)/2)
+		newheight=int(1920.0*height/width)
+		borderup=int((1080.0-newheight)/2)
 		if borderup % 2 == 1:
 			borderup+=1
 		borderdown=1080-borderup-newheight
 		video=core.resize.Bicubic(clip=video,width=1920,height=newheight)
 		video=core.std.AddBorders(clip=video,top=borderup,bottom=borderdown)
 	else:
-		newwidth=int(1080*width/height)
-		borderleft=int((1920-newwidth)/2)
+		newwidth=int(1080.0*width/height)
+		borderleft=int((1920.0-newwidth)/2)
 		if borderleft % 2==1:
 			borderleft+=1
 		borderright=1920-borderleft-newwidth
@@ -27,14 +27,14 @@ def resize_to_1080(video):
 #compressibility check to keep 5% of the video in 30 seconds clips,
 #spread equally to all video.
 def compressibility_check(video):
-	percentage = 5
-	clipsduration=30
+	percentage = 5.0
+	clipsduration=30.0
 	
 	clipframes=math.ceil(clipsduration*video.fps_num/video.fps_den)
 	compressibilitiframes = math.ceil(percentage * video.num_frames / 100)
 	numberofclips=math.floor(compressibilitiframes/clipframes)
 	
-	if numberofclips*clipframes/video.num_frames < 0.5:
+	if numberofclips*clipframes/video.num_frames < (percentage/100):
 		numberofclips+=1
 	
 	big_part_length=math.ceil(video.num_frames/numberofclips)
